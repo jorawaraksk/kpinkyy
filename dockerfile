@@ -1,14 +1,18 @@
 FROM ubuntu:22.04
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    xfce4 xfce4-goodies xrdp dbus-x11 curl && \
-    apt-get clean
 
-RUN useradd -m -s /bin/bash ashu && echo "ashu:12345" | chpasswd
+ENV DEBIAN_FRONTEND=noninteractive
 
-RUN curl -s -L https://get.pinggy.io | bash
+RUN apt-get update && apt-get install -y \
+    xrdp \
+    dbus-x11 \
+    xfce4 \
+    xfce4-terminal \
+    sudo \
+    curl \
+    openssh-client \
+    && rm -rf /var/lib/apt/lists/*
 
-EXPOSE 3389
+RUN useradd -m -s /bin/bash ashu && echo "ashu:12345" | chpasswd && adduser ashu sudo
 
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
