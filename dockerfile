@@ -14,6 +14,9 @@ RUN apt-get update && apt-get install -y \
 
 RUN useradd -m -s /bin/bash ashu && echo "ashu:12345" | chpasswd && adduser ashu sudo
 
+RUN echo "startxfce4" > /home/ashu/.xsession \
+    && chown ashu:ashu /home/ashu/.xsession
+
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
